@@ -47,8 +47,45 @@ Os Bosses são desafios temporários que personificam vilões da produtividade.
 
 ---
 
+### 🎮 Mecânicas de Jogo e Progressão
+## ⚔️ Sistema de Combate e Recompensas
+A progressão do jogador é ditada pela conclusão de hábitos, que geram experiência (XP) e causam dano ao Boss ativo.
+
+| Dificuldade | XP | Dano | Descrição da Tarefa |
+| :--- | :---: | :---: | :--- |
+| Fácil | 10 XP | 10 HP | Ações rápidas (ex: beber água, arrumar a cama) |
+| Médio | 25 XP | 25 HP | Exige esforço moderado (ex: 15 min de leitura) |
+| Difícil | 50 XP | 50 HP | Grande empenho (ex: treino na academia, 2h de estudo) |
+
+## 💡 Multiplicador de Fraqueza:
+ Se o type do hábito coincidir com o type_weakness do Boss, o dano é multiplicado por 1.5x.
+
+## 🆙 Curva de Nível
+O jogador sobe de nível ao atingir a meta de XP, que escala linearmente para manter o desafio equilibrado:
+
+- Cálculo:
+  $$XP_{Necessário} = Nível_{Atual} \times 100$$
+  
+ - Exemplos:
+
+- Nível 1 → 2: 100 XP 
+- Nível 2 → 3: 200 XP
+ - Nível 5 → 6: 500 XP
+
+## 🔥 Sistema de Combo (Streak)
+Manter a consistência gera bônus passivos no ganho de XP:
+ 
+ - 3 dias: +5% XP
+
+- 7 dias: +10% XP
+
+- 15+ dias: +20% XP (Bônus Máximo)
+
+
+---
+
 ## 4. Roadmap de Desenvolvimento
-- [ ] **Fase 1:** Documentação e Modelagem ER (MySQL Workbench).
+- [X] **Fase 1:** Documentação e Modelagem ER (MySQL Workbench).
 - [ ] **Fase 2:** Configuração do Backend e Base de Dados.
 - [ ] **Fase 3:** Implementação do MVP (Hábitos + Humor).
 - [ ] **Fase 4:** Implementação da Gamificação (XP, Níveis e Bosses).
