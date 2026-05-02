@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -11,4 +5,83 @@ generator client {
 
 datasource db {
   provider = "mysql"
+}
+
+model bosses {
+  id            Int                  @id @default(autoincrement())
+  name          String               @db.VarChar(45)
+  max_hp        Int
+  current_hp    Int
+  type_weakness bosses_type_weakness
+}
+
+model habit_logs {
+  id              Int      @id @default(autoincrement())
+  habits_id       Int
+  mood_entries_id Int?
+  log_date        DateTime @db.Date
+  xp_earned       Int
+
+  @@unique([habits_id, log_date], map: "xp_uniq")
+  @@index([habits_id], map: "fk_habit_logs_habits_idx")
+  @@index([mood_entries_id], map: "fk_habit_logs_mood_idx")
+}
+
+model habits {
+  id             Int                   @id @default(autoincrement())
+  user_id        Int
+  title          String                @db.VarChar(100)
+  description    String?               @db.Text
+  type           habits_type
+  difficulty     habits_difficulty
+  frequency_type habits_frequency_type
+  created_at     DateTime              @default(now()) @db.Timestamp(0)
+
+  @@index([user_id], map: "fk_habits_users_idx")
+}
+
+model mood_entries {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  mood_score Int      @db.TinyInt
+  note       String?  @db.Text
+  created_at DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([user_id], map: "fk_mood_users_idx")
+}
+
+model users {
+  id             Int    @id @default(autoincrement())
+  username       String @unique(map: "username_UNIQUE") @db.VarChar(45)
+  password       String @db.VarChar(45)
+  level          Int    @default(1)
+  total_xp       Int    @default(0)
+  current_streak Int    @default(0)
+  active_boss_id Int?
+
+  @@index([active_boss_id], map: "fk_users_bosses_idx")
+}
+
+enum bosses_type_weakness {
+  f_sico        @map("físico")
+  mental
+  produtividade
+}
+
+enum habits_type {
+  f_sico        @map("físico")
+  mental
+  produtividade
+}
+
+enum habits_difficulty {
+  facil
+  medio
+  dificil
+}
+
+enum habits_frequency_type {
+  diario
+  semanal
+  mensal
 }
